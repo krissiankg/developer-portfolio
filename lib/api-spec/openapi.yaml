@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+paths:
+  /ambassador:
+    post:
+      operationId: askAmbassador
+      summary: Ask a question about verified public career evidence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AmbassadorQuestion"
+      responses:
+        "200":
+          description: Source-grounded answer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AmbassadorAnswer"
+        "400":
+          description: Invalid question
+        "429":
+          description: Rate limit exceeded
+        "503":
+          description: Assistant temporarily unavailable
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+components:
+  schemas:
+    AmbassadorQuestion:
+      type: object
+      additionalProperties: false
+      required: [question]
+      properties:
+        question:
+          type: string
+          minLength: 1
+          maxLength: 600
+    AmbassadorAnswer:
+      type: object
+      required: [answer, sources, section]
+      properties:
+        answer:
+          type: string
+        section:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/EvidenceSource"
+    EvidenceSource:
+      type: object
+      required: [label, url]
+      properties:
+        label:
+          type: string
+        url:
+          type: string
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+

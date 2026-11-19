@@ -1,0 +1,21 @@
+# Netlify: static site from artifacts/christian-portfolio + API as a Netlify Function.
+[build]
+  base = "."
+  command = "pnpm --filter @workspace/christian-portfolio run build"
+  publish = "artifacts/christian-portfolio/dist/public"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # vite.config.ts requires these; PORT is only used by the dev server.
+  PORT = "5173"
+  BASE_PATH = "/"
+
+[functions]
+  directory = "artifacts/api-server/src/netlify"
+  node_bundler = "esbuild"
+
+# Single-page app: let the client router handle /directions and 404s.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
