@@ -57,7 +57,7 @@ pnpm --filter @workspace/scripts run resume     # rebuild the public resume PDF
 
 ## Deploy on Netlify
 
-The repository is ready to import in Netlify with no extra settings: `netlify.toml` builds the site, publishes `artifacts/christian-portfolio/dist/public`, and serves `/api/*` from the Netlify Function in `artifacts/api-server/src/netlify/api.ts`.
+The repository is ready to import in Netlify with no extra settings: `netlify.toml` builds the site, publishes `artifacts/christian-portfolio/dist/public`, and bundles `artifacts/api-server/src/netlify/api.ts` into a Netlify Function and rewrites `/api/*` to it.
 
 ## License
 

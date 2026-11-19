@@ -1,7 +1,7 @@
 # Netlify: static site from artifacts/christian-portfolio + API as a Netlify Function.
 [build]
   base = "."
-  command = "pnpm --filter @workspace/christian-portfolio run build"
+  command = "pnpm --filter @workspace/christian-portfolio run build && pnpm run build:function"
   publish = "artifacts/christian-portfolio/dist/public"
 
 [build.environment]
@@ -11,8 +11,14 @@
   BASE_PATH = "/"
 
 [functions]
-  directory = "artifacts/api-server/src/netlify"
-  node_bundler = "esbuild"
+  # Pre-bundled with esbuild so workspace TypeScript packages are inlined.
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
 
 # Single-page app: let the client router handle /directions and 404s.
 [[redirects]]

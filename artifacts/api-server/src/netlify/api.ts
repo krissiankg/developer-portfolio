@@ -2,6 +2,7 @@ import { HealthCheckResponse } from "@workspace/api-zod";
 import { handleAsk } from "../lib/ambassador-handler";
 
 // Netlify Function (v2 API) serving the same routes as the Express server.
+// Bundled by `pnpm build:function` into netlify/functions/api.mjs.
 // Rate-limit state is per function instance, which is fine for a portfolio.
 type NetlifyContext = { ip?: string };
 
@@ -13,7 +14,8 @@ function json(status: number, body: unknown, headers: Record<string, string> = {
 }
 
 export default async (req: Request, context: NetlifyContext): Promise<Response> => {
-  const { pathname } = new URL(req.url);
+  // Reached through the /api/* rewrite in netlify.toml; normalise the path.
+  const pathname = new URL(req.url).pathname.replace(/^\/\.netlify\/functions\/api/, "/api");
 
   if (pathname === "/api/healthz" && req.method === "GET") {
     return json(200, HealthCheckResponse.parse({ status: "ok" }));
@@ -34,5 +36,3 @@ export default async (req: Request, context: NetlifyContext): Promise<Response> 
 
   return json(404, { error: "Not found." });
 };
-
-export const config = { path: "/api/*" };

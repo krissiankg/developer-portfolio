@@ -8,7 +8,8 @@
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
     "dev:api": "PORT=5000 pnpm --filter @workspace/api-server run dev",
-    "dev:web": "pnpm --filter @workspace/christian-portfolio run dev"
+    "dev:web": "pnpm --filter @workspace/christian-portfolio run dev",
+    "build:function": "pnpm --filter @workspace/api-server exec esbuild src/netlify/api.ts --bundle --platform=node --target=node22 --format=esm --outfile=../../netlify/functions/api.mjs"
   },
   "private": true,
   "devDependencies": {

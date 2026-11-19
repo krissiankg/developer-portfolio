@@ -103,9 +103,9 @@ export const PROJECTS: Project[] = [
     ],
     outcome: 'Browser data utilities. The newer SaaS iteration is kept separate below.',
     caveat:
-      'The documented live link points to the older production version, but its domain did not resolve during our check. Inspect the repository instead. Its README describes a newer Next.js, TypeScript, PostgreSQL and Prisma SaaS iteration; Stripe is in progress. AI cleaning, Chat with CSV, formula generation and categorization are roadmap items, not proven live features.',
+      'The live link opens the production site. The repository README describes a newer Next.js, TypeScript, PostgreSQL and Prisma SaaS iteration; Stripe is in progress. AI cleaning, Chat with CSV, formula generation and categorization are roadmap items, not proven live features.',
     repo: 'https://github.com/krissiankg/exceltools-site',
-    live: 'https://www.exceltools.site/',
+    live: 'https://www.exceltools.online/',
   },
   {
     id: 'capcut',
